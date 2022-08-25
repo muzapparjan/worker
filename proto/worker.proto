@@ -1,0 +1,55 @@
+syntax = "proto3";
+package worker;
+option go_package = "/worker;worker";
+
+service Worker {
+    rpc GetPlatforms (GetPlatformsRequest) returns (GetPlatformsResponse) {}
+    rpc GetDevices (GetDevicesRequest) returns (GetDevicesResponse) {}
+
+    rpc GetLanguages (GetLanguagesRequest) returns (GetLanguagesResponse) {}
+}
+
+enum API {
+    OpenCL = 0;
+    CUDA = 1;
+}
+
+message Platform {
+    string name = 1;
+    string version = 2;
+    repeated string extensions = 3;
+}
+
+message Device {
+    string platform = 1;
+    string device = 2;
+}
+
+message Language {
+    string name = 1;
+    string version = 2;
+}
+
+message GetPlatformsRequest {
+    API api = 1;
+}
+
+message GetPlatformsResponse {
+    repeated Platform platforms = 1;
+}
+
+message GetDevicesRequest {
+    string platform = 1;
+}
+
+message GetDevicesResponse {
+    repeated Device devices = 1;
+}
+
+message GetLanguagesRequest {
+    repeated string conditions = 1;
+}
+
+message GetLanguagesResponse {
+    repeated Language languages = 1;
+}
