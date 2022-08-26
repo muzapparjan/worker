@@ -1,6 +1,7 @@
 package worker
 
 import (
+	"log"
 	"net"
 	"time"
 
@@ -12,6 +13,7 @@ const (
 	maxMessageSize   = int(1 << 20)
 	keepAliveTime    = 30 * time.Second
 	keepAliveTimeout = 10 * time.Second
+	address          = ":12345"
 )
 
 type Worker struct {
@@ -41,9 +43,10 @@ func NewWorker() (*Worker, error) {
 }
 
 func (worker *Worker) Work() error {
-	listener, err := net.Listen("tcp", ":12345")
+	listener, err := net.Listen("tcp", address)
 	if err != nil {
 		return err
 	}
+	log.Printf("Start listening address %v", listener.Addr().String())
 	return worker.server.Serve(listener)
 }
