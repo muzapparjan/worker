@@ -1,2 +1,2 @@
 @echo off
-call protoc --go_out=. proto\worker.proto
+call protoc --go_out=plugins=grpc:. proto\worker.proto
