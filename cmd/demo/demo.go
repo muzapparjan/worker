@@ -19,7 +19,7 @@ func main() {
 	request := &worker.ComputeRequest{}
 	response, err := client.Compute(context.Background(), request)
 	if err != nil {
-		log.Fatalf("Failed to call Compute:\n%v", err)
+		log.Fatalf("Failed to Compute:\n%v", err)
 	}
 	log.Printf("Compute result:\n%v", response.GetResult())
 }

@@ -12,6 +12,12 @@ enum ComputeAPI {
     CUDA = 1;
 }
 
+enum PlatformType {
+    NVIDIA = 0;
+    AMD = 1;
+    INTEL = 2;
+}
+
 enum DeviceType {
     CPU = 0;
     GPU = 1;
@@ -22,15 +28,15 @@ enum Language {
 }
 
 message ComputePlatform {
-
 }
 
 message ComputeRequest {
     string code = 1;
+    bytes data = 2;
 }
 
 message ComputeResponse {
-    string result = 1;
+    bytes result = 1;
 }
 
 message RunRequest {

@@ -17,9 +17,8 @@ const (
 )
 
 type Worker struct {
-	computeTasks []*Task
-	genericTasks []*Task
-	server       *grpc.Server
+	server *grpc.Server
+	api    map[string]IAPI
 }
 
 func NewWorker() (*Worker, error) {
@@ -34,10 +33,10 @@ func NewWorker() (*Worker, error) {
 	maxRecvMsgSize := grpc.MaxRecvMsgSize(maxMessageSize)
 	server := grpc.NewServer(keepAliveParams, enforcementPolicy, maxSendMsgSize, maxRecvMsgSize)
 	RegisterWorkerServer(server, &Server{})
+	api := InitAPI()
 	worker := &Worker{
-		computeTasks: []*Task{},
-		genericTasks: []*Task{},
-		server:       server,
+		server: server,
+		api:    api,
 	}
 	return worker, nil
 }
