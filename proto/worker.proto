@@ -7,32 +7,32 @@ service Worker {
     rpc Run (RunRequest) returns (RunResponse) {}
 }
 
-enum ComputeAPI {
-    OpenCL = 0;
-    CUDA = 1;
+enum Flag {
+    Any = 0;
+    API_OPENCL = 1;
+    API_CUDA = 2;
+    PLATFORM_NVIDIA = 3;
+    PLATFORM_AMD = 4;
+    PLATFORM_INTEL = 5;
+    DEVICE_CPU = 6;
+    DEVICE_GPU = 7;
+    LANGUAGE_PYTHON = 8;
 }
 
-enum PlatformType {
-    NVIDIA = 0;
-    AMD = 1;
-    INTEL = 2;
+message ComputeOption {
+    Flag api = 1;
+    Flag platform = 2;
+    Flag device = 3;
 }
 
-enum DeviceType {
-    CPU = 0;
-    GPU = 1;
-}
-
-enum Language {
-    Python = 0;
-}
-
-message ComputePlatform {
+message RunOption {
+    Flag language = 1;
 }
 
 message ComputeRequest {
-    string code = 1;
-    bytes data = 2;
+    ComputeOption option = 1;
+    bytes code = 2;
+    bytes data = 3;
 }
 
 message ComputeResponse {
@@ -40,9 +40,10 @@ message ComputeResponse {
 }
 
 message RunRequest {
-    string code = 1;
+    RunOption option = 1;
+    bytes code = 2;
 }
 
 message RunResponse {
-    string result = 1;
+    bytes result = 1;
 }

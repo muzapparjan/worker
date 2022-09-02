@@ -16,10 +16,19 @@ func main() {
 	defer conn.Close()
 
 	client := worker.NewWorkerClient(conn)
-	request := &worker.ComputeRequest{}
-	response, err := client.Compute(context.Background(), request)
+	request := &worker.ComputeRequest{
+		Option: &worker.ComputeOption{
+			Api:      worker.Flag_Any,
+			Platform: worker.Flag_Any,
+			Device:   worker.Flag_Any,
+		},
+		Code: nil,
+		Data: nil,
+	}
+	ctx := context.Background()
+	response, err := client.Compute(ctx, request)
 	if err != nil {
 		log.Fatalf("Failed to Compute:\n%v", err)
 	}
-	log.Printf("Compute result:\n%v", response.GetResult())
+	log.Printf("Compute result:\n%v", string(response.GetResult()))
 }
