@@ -1,6 +1,8 @@
 package opencl
 
 import (
+	"encoding/json"
+
 	"github.com/jgillich/go-opencl/cl"
 )
 
@@ -147,4 +149,12 @@ func newDevice(d *cl.Device) (*Device, error) {
 		BuiltInKernels: d.BuiltInKernels(),
 	}
 	return device, nil
+}
+
+func (device *Device) String() (string, error) {
+	data, err := json.MarshalIndent(device, "", "\t")
+	if err != nil {
+		return "", err
+	}
+	return "\nDevice\n" + string(data), nil
 }
